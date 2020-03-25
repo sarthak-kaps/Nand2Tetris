@@ -1,0 +1,27 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/b/RAM16K.hdl
+
+/**
+ * Memory of 16K registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+
+CHIP RAM16K {
+    IN in[16], load, address[14];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+	DMux4Way(in = load, sel[0] = address[12], sel[1] = address[13], a = a, b = b, c = c, d = d);
+
+	RAM4K(in = in, load = a, address[0] = address[0], address[1] = address[1], address[2] = address[2], address[3] = address[3], address[4] = address[4], address[5] = address[5], address[6] = address[6], address[7] = address[7], address[8] = address[8], address[9] = address[9], address[10] = address[10], address[11] = address[11], out = w0);
+	RAM4K(in = in, load = b, address[0] = address[0], address[1] = address[1], address[2] = address[2], address[3] = address[3], address[4] = address[4], address[5] = address[5], address[6] = address[6], address[7] = address[7], address[8] = address[8], address[9] = address[9], address[10] = address[10], address[11] = address[11], out = w1);
+	RAM4K(in = in, load = c, address[0] = address[0], address[1] = address[1], address[2] = address[2], address[3] = address[3], address[4] = address[4], address[5] = address[5], address[6] = address[6], address[7] = address[7], address[8] = address[8], address[9] = address[9], address[10] = address[10], address[11] = address[11], out = w2);
+	RAM4K(in = in, load = d, address[0] = address[0], address[1] = address[1], address[2] = address[2], address[3] = address[3], address[4] = address[4], address[5] = address[5], address[6] = address[6], address[7] = address[7], address[8] = address[8], address[9] = address[9], address[10] = address[10], address[11] = address[11], out = w3);
+	
+	Mux4Way16(a = w0, b = w1, c = w2, d = w3, sel[0] = address[12], sel[1] = address[13], out = out); 
+}
